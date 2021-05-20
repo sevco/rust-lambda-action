@@ -1,0 +1,21 @@
+name: 'Rust Lambda Builder'
+description: 'Build lambda binary of Cargo project'
+author: Aaron Griffin
+inputs:
+  git_credentials:
+    description: "Git credentials - https://git-scm.com/docs/git-credential-store"
+    required: false
+  directory:
+    description: Relative path under $GITHUB_WORKSPACE where Cargo project is located
+    required: false
+runs:
+  using: 'docker'
+  image: 'docker://sevcosec/rust-lambda-action:1.0.0'
+  args:
+    - ${{ inputs.directory }}
+    - ${{ inputs.git_credentials }}
+  post-entrypoint: 'cleanup.sh'
+
+branding:
+  icon: box
+  color: orange

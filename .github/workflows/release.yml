@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetches entire history, so we can analyze commits since last tag
+          fetch-depth: 0  
+      - uses: ahmadnassri/action-workflow-run-wait@v1
+      - name: Calculate new version
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: "master"
+          dry_run: true
+      - name: Update version in actions.yml
+        uses: jacobtomlinson/gha-find-replace@0.1.3
+        with:
+          find: "docker://sevcosec/rust-lambda-action:${{ steps.tag_version.outputs.previous_version }}"
+          replace: "docker://sevcosec/rust-lambda-action:${{ steps.tag_version.outputs.new_version }}"
+          include: "action.yml"
+      - name: Update version in README
+        uses: jacobtomlinson/gha-find-replace@0.1.3
+        with:
+          find: "sevco/rust-lambda-action@${{ steps.tag_version.outputs.previous_tag }}"
+          replace: "sevco/rust-lambda-action@${{ steps.tag_version.outputs.new_tag }}"
+          include: "README.md"
+      - name: Commit and push
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: "Updated actions container to ${{ steps.tag_version.outputs.new_version }}"
+          add: '["action.yml", "README.md"]'
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
