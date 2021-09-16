@@ -1,5 +1,5 @@
-name: 'Rust Lambda Builder'
-description: 'Build lambda binary of Cargo project'
+name: "Rust Lambda Builder"
+description: "Build lambda binary of Cargo project"
 author: Aaron Griffin
 inputs:
   git_credentials:
@@ -8,13 +8,16 @@ inputs:
   directory:
     description: Relative path under $GITHUB_WORKSPACE where Cargo project is located
     required: false
+  cargo_config:
+    description: Cargo configuration to use in addition to Lambda configs
+    required: false
 runs:
-  using: 'docker'
-  image: 'docker://sevcosec/rust-lambda-action:1.0.0'
+  using: "docker"
+  image: "docker://sevcosec/rust-lambda-action:1.0.0"
   args:
     - ${{ inputs.directory }}
     - ${{ inputs.git_credentials }}
-  post-entrypoint: 'cleanup.sh'
+  post-entrypoint: "cleanup.sh"
 
 branding:
   icon: box
