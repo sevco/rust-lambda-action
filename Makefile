@@ -1,7 +1,8 @@
 test: IMAGE=$(shell docker build -q .)
 test: image build/bincode
+	echo '\n[registries.test]\nindex="https://test.test/test.git"' > build/.cargo_resistry
 	echo "Building crate in container" && \
-	docker run --rm --user $(shell id -u):$(shell id -g) -v $$PWD/build:/github/home $(IMAGE) "bincode" "" "\n[registries.test]\nindex=\"https://test.test/test.git\""
+	docker run --rm --user $(shell id -u):$(shell id -g) -v $$PWD/build:/github/home $(IMAGE) "bincode" "" ".cargo_resistry"
 	@echo "Making sure config was appended"
 	@grep -q 'index="https://test.test/test.git"' build/.cargo/config || exit 1
 	@echo "Running cleanup" 

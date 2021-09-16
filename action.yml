@@ -9,7 +9,7 @@ inputs:
     description: Relative path under $GITHUB_WORKSPACE where Cargo project is located
     required: false
   cargo_config:
-    description: Cargo configuration to use in addition to Lambda configs
+    description: Path to additional cargo config file
     required: false
 runs:
   using: "docker"

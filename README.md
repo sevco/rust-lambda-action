@@ -14,17 +14,14 @@ GitHub action for building statically linked Rust binaries (x86_64-unknown-linux
   with:
     args: build --release --all-features
     git_credentials: ${{ secrets.GIT_CREDENTIALS }}
-    cargo_config: |
-      [registry]
-      default = "…"
-      token = "…"
+    cargo_config: .custom_cargo_config
   ```
   ### Inputs
   | Variable | Description | Required | Default |
   |----------|-------------|----------|---------|
   | credentials | If provided git will be configured to use these credentials and https | false | |
   | directory | Relative path under $GITHUB_WORKSPACE where Cargo project is located | false | |
-  | cargo_config | Cargo configuration to use in addition to Lambda configs | false |
+  | cargo_config | Path to additional cargo config file | false |
 
   ### Output
   `$directory/target/lambda/$project.zip`
