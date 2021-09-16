@@ -13,7 +13,7 @@ GitHub action for building statically linked Rust binaries (x86_64-unknown-linux
 - uses: sevco/rust-lambda-action@v1.0.1
   with:
     args: build --release --all-features
-    credentials: ${{ secrets.GIT_CREDENTIALS }}
+    git_credentials: ${{ secrets.GIT_CREDENTIALS }}
     cargo_config: |
       [registry]
       default = "…"
