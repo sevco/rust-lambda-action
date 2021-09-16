@@ -13,7 +13,7 @@ inputs:
     required: false
 runs:
   using: "docker"
-  image: "docker://sevcosec/rust-lambda-action:1.0.0"
+  image: "docker://sevcosec/rust-lambda-action:1.0.1"
   args:
     - ${{ inputs.directory }}
     - ${{ inputs.git_credentials }}

@@ -10,7 +10,7 @@ Rust Lambda Builder
 GitHub action for building statically linked Rust binaries (x86_64-unknown-linux-musl) packaged for [AWS Lambda](https://aws.amazon.com/blogs/opensource/rust-runtime-for-aws-lambda/). Based on [emk/rust-musl-builder](https://github.com/emk/rust-musl-builder).
 
 ```yaml
-- uses: sevco/rust-lambda-action@v1.0.0
+- uses: sevco/rust-lambda-action@v1.0.1
   with:
     args: build --release --all-features
     credentials: ${{ secrets.GIT_CREDENTIALS }}
