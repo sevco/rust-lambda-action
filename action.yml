@@ -17,6 +17,7 @@ runs:
   args:
     - ${{ inputs.directory }}
     - ${{ inputs.git_credentials }}
+    - ${{ inputs.cargo_config }}
   post-entrypoint: "cleanup.sh"
 
 branding:
