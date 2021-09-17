@@ -5,6 +5,9 @@ set -e
 echo "Cleanup up Cargo symlinks"
 rm -f .cargo/bin
 rm -f .cargo/config
+if [ -f .cargo/config.original ]; then
+    mv .cargo/config.original .cargo/config
+fi
 
 echo "Cleaning up git state"
 rm -f .git_credentials
