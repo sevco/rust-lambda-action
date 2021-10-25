@@ -1,4 +1,6 @@
-test: IMAGE=$(shell docker build -q .)
+TOOLCHAIN ?= 1.56.0
+
+test: IMAGE=$(shell docker build --build-arg TOOLCHAIN=$(TOOLCHAIN) -q .)
 test: image build/bincode
 	mkdir -p build/.cargo && echo '\n[registries.test]\nindex="https://test.test/test.git"' > build/.cargo/config
 	echo "Building crate in container" && \
@@ -14,9 +16,11 @@ test: image build/bincode
 	@echo "Making sure lambda zip was created" 
 	@[ -f build/bincode/target/lambda/rbeext_serde_bincode.zip ] || exit 1
 
+musl-builder:
+	docker build https://github.com/emk/rust-musl-builder.git#master --build-arg TOOLCHAIN="$(TOOLCHAIN)" --build-arg OPENSSL_VERSION="1.1.1i" -t emk/rust-musl-builder:$(TOOLCHAIN)
 
-image: 
-	@docker build .	
+image: musl-builder
+	docker build --build-arg TOOLCHAIN="$(TOOLCHAIN)" .	
 
 .PHONY:
 clean:
