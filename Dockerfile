@@ -1,4 +1,5 @@
-FROM ekidd/rust-musl-builder:1.51.0
+ARG TOOLCHAIN
+FROM emk/rust-musl-builder:${TOOLCHAIN}
 
 USER root
 
