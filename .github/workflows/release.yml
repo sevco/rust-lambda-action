@@ -64,8 +64,8 @@ jobs:
         if: env.EXECUTE == 'true'
         uses: jacobtomlinson/gha-find-replace@0.1.3
         with:
-          find: "docker://ghcr.io/sevco/rust-lambda-action:.+"
-          replace: "docker://ghcr.io/sevco/rust-lambda-action:${{ env.TOOLCHAIN }}"
+          find: "docker://docker.pkg.github.com/sevco/rust-lambda-action/rust-lambda-action:.+"
+          replace: "docker://docker.pkg.github.com/sevco/rust-lambda-action/rust-lambda-action:${{ env.TOOLCHAIN }}"
           include: "action.yml"
       - name: Update version in README
         if: env.EXECUTE == 'true'
