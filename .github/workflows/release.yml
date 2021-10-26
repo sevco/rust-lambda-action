@@ -78,17 +78,17 @@ jobs:
         if: env.EXECUTE == 'true'
         uses: EndBug/add-and-commit@v7
         with:
-          message: "Updated actions container to ${{ steps.tag_version.outputs.new_version }}"
+          message: "Updated actions container to ${{ env.TOOLCHAIN }}"
           committer_name: GitHub Actions
           committer_email: actions@github.com
           add: '["action.yml", "README.md"]'
-          tag: ${{ env.VERSION }}
+          tag: ${{ env.TOOLCHAIN }}
       - name: Create a GitHub release
         if: env.EXECUTE == 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "${{ env.VERSION }}"
-          release_name: "Release ${{ env.VERSION }}"
-          body: "${{ env.VERSION }}"
+          tag_name: "${{ env.TOOLCHAIN }}"
+          release_name: "Release ${{ env.TOOLCHAIN }}"
+          body: "${{ env.TOOLCHAIN }}"
