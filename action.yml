@@ -10,7 +10,7 @@ inputs:
     required: false
 runs:
   using: "docker"
-  image: "docker://ghcr.io/sevco/rust-lambda-action:1.57.0"
+  image: "docker://ghcr.io/sevco/rust-lambda-action:1.58.0"
   args:
     - ${{ inputs.directory }}
     - ${{ inputs.git_credentials }}
