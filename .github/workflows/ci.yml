@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
     branches:
       - master
@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:      
+    steps:
       - uses: actions/checkout@v2
       - name: Run test
-        run: make test
+        run: TOOLCHAIN=$(rustc --version | cut -d' ' -f2 ) make test

@@ -1,4 +1,8 @@
-TOOLCHAIN ?= 1.56.0
+guard-%:
+	@ if [ "${${*}}" = "" ]; then \
+		echo "Environment variable $* not set"; \
+		exit 1; \
+	fi
 
 test: IMAGE=$(shell docker build --build-arg TOOLCHAIN=$(TOOLCHAIN) -q .)
 test: image build/bincode
@@ -17,9 +21,9 @@ test: image build/bincode
 	@[ -f build/bincode/target/lambda/rbeext_serde_bincode.zip ] || exit 1
 
 musl-builder:
-	docker build https://github.com/emk/rust-musl-builder.git#main --build-arg TOOLCHAIN="$(TOOLCHAIN)" --build-arg OPENSSL_VERSION="1.1.1i" -t emk/rust-musl-builder:$(TOOLCHAIN)
+	docker build https://github.com/emk/rust-musl-builder.git#main --build-arg TOOLCHAIN="$(TOOLCHAIN)" -t emk/rust-musl-builder:$(TOOLCHAIN)
 
-image: musl-builder
+image: guard-TOOLCHAIN musl-builder
 	docker build --build-arg TOOLCHAIN="$(TOOLCHAIN)" .	
 
 .PHONY:
