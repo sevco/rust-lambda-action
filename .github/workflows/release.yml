@@ -21,7 +21,7 @@ jobs:
         if: github.event_name == 'schedule'
         with:
           toolchain: stable
-          oeverride: true
+          override: true
       - name: Get latest stable version
         if: github.event_name == 'schedule'
         run: |
